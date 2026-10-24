@@ -390,6 +390,70 @@ h1 em { color: #d99ba7; }
   font-size: 22px;
 }
 
+/* OPENING GREETINGS */
+.opening-screen {
+  max-width: 620px;
+  margin: 28px auto;
+  padding: 38px 24px;
+  border: 1px solid #80505d;
+  background:
+    radial-gradient(ellipse at top, #512737 0%, transparent 70%),
+    linear-gradient(145deg, #351b27, #1e141b 78%);
+  box-shadow: 0 18px 45px #0005;
+  text-align: center;
+  animation: appear .7s ease;
+}
+
+.opening-ornament {
+  color: #d99ba7;
+  font-size: 34px;
+  margin-bottom: 18px;
+}
+
+.opening-kicker {
+  color: var(--gold);
+  font: 9px 'DM Mono', monospace;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.opening-screen h2 {
+  margin: 20px 0;
+  color: #f2e4d7;
+  font-size: clamp(32px, 8vw, 46px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.opening-screen h2 em {
+  color: #d99ba7;
+}
+
+.opening-message {
+  max-width: 390px;
+  margin: 0 auto;
+  color: #d6bdc3;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.opening-divider {
+  color: var(--gold);
+  margin: 22px 0;
+  letter-spacing: 8px;
+}
+
+.opening-note {
+  color: #f0dce0;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.opening-screen .action {
+  margin-top: 28px;
+}
+  
 /* MINI GAME: MATCH MY HEART */
 .game-screen {
   max-width: 620px;
@@ -534,8 +598,61 @@ h1 em { color: #d99ba7; }
   <source src="sounds/romantic-music.mp3" type="audio/mpeg">
 </audio>
 
+<!-- OPENING GREETINGS -->
+<section class="opening-screen" id="openingScreen">
+  <div class="opening-ornament">♡ ✧ ♡</div>
+
+  <div class="opening-kicker">
+    A little gift, just for you
+  </div>
+
+  <h2>
+    Happy 4th<br>
+    <em>Monthversary,</em> for us.
+  </h2>
+
+  <p class="opening-message">
+    Four months of us, of little memories, and of having
+    you in my life. I wish I could welcome this day with
+    nothing but happiness, but I know there are things
+    I need to be sorry for, too. I'm sorry, Venor.
+  </p>
+
+  <div class="opening-divider">✦ ♡ ✦</div>
+
+  <p class="opening-note">
+    I'm sorry for the words and acts that hurt you.
+    You mean so much to me, and I never wanted
+    to make this special day feel any heavier.
+  </p>
+
+  <p class="opening-message">
+    I made all of this just for you, a little gift made
+    with all the feelings I couldn't quite put into words.
+    Well, made it with AI to help me because I am a newbie.
+    Ain't good, it's my first time making all of this nerd
+    things. Just, hope you like it, catch every message of
+    my feelings I pour on this website and the messy art.
+    But first, let's play a quick mini game, shall we?
+  </p>
+
+  <button
+    class="action"
+    id="beginGift"
+    type="button"
+    onclick="beginOurGift()"
+  >
+    Begin Our Little Surprise ♡
+  </button>
+
+  <p class="game-note">
+    Made with love, from M. to you.
+  </p>
+</section>
+<!-- END OPENING GREETINGS -->
+
 <!-- PEMBUKA: MINI GAME -->
-<section class="game-screen" id="heartGame" aria-labelledby="gameTitle">
+<section class="game-screen" id="heartGame" aria-labelledby="gameTitle" hidden>
   <div class="game-kicker">A little game before the gift</div>
   <h2 id="gameTitle">Match My Heart</h2>
 
@@ -1169,7 +1286,6 @@ nextLevelButton.addEventListener("click", () => {
   }
 });
 
-
 enterLetterButton.addEventListener("click", () => {
   // Putar romantic music setelah mini game selesai
   startLoveMusic();
@@ -1184,7 +1300,20 @@ enterLetterButton.addEventListener("click", () => {
   });
 });
 
-startLevel();
+function beginOurGift() {
+  const opening = document.getElementById("openingScreen");
+  const game = document.getElementById("heartGame");
+
+  opening.hidden = true;
+  game.hidden = false;
+
+  startLevel();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+  }
 
 /* ==========================================
    WEBSITE UTAMA: THREE KEEPSAKES
@@ -1234,7 +1363,6 @@ function reveal(index, button) {
       "Not a promise that everything will be easy. Just a heart with something important left to say.";
   }
 }
-
 
 /* ==========================================
    SURPRISE: OPEN OR FOLD THE LAST LETTER
