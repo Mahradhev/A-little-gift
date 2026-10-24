@@ -666,7 +666,7 @@ h1 em { color: #d99ba7; }
       LEVEL <span id="levelCount">1</span> / 3
     </div>
     <div class="game-stat">
-      PAIRS <span id="pairCount">0</span> / 4
+  PAIRS <span id="pairCount">0</span> / <span id="totalPairs">4</span>
     </div>
     <div class="game-stat">
       MOVES <span id="moveCount">0</span>
@@ -690,7 +690,7 @@ h1 em { color: #d99ba7; }
       Next Level
     </button>
     <button class="action" id="enterLetter" type="button" hidden>
-      Enter The Little Love
+      Enter The Little Love Space
     </button>
   </div>
 
@@ -703,8 +703,8 @@ h1 em { color: #d99ba7; }
 <main class="page" id="experience" hidden>
 
   <div class="topline">
-    <span>A love gift from me</span>
-    <span>26 / 6 / 26</span>
+    <span>Seal our love</span>
+    <span>In every way</span>
   </div>
 
   <header class="hero">
@@ -749,19 +749,19 @@ h1 em { color: #d99ba7; }
 
     <div class="keepsakes">
       <button class="keep" onclick="reveal(0,this)">
-        <span class="symbol">✉</span>
+        <span class="symbol">❣</span>
         <strong>The Beginning</strong>
         <small>A little memory</small>
       </button>
 
       <button class="keep" onclick="reveal(1,this)">
-        <span class="symbol">♡</span>
+        <span class="symbol">❣</span>
         <strong>Your Presence</strong>
         <small>A little gratitude</small>
       </button>
 
       <button class="keep" onclick="reveal(2,this)">
-        <span class="symbol">☾</span>
+        <span class="symbol">❣</span>
         <strong>Right Now</strong>
         <small>A little honesty</small>
       </button>
@@ -773,7 +773,7 @@ h1 em { color: #d99ba7; }
   <!-- STEP 3: THE LOVE -->
   <section class="surprise">
     <div class="eyebrow">03 — SOMETHING I KEPT FOR YOU</div>
-    <div class="lock" id="lock">✧</div>
+    <div class="lock" id="lock">♡</div>
     <h2>A little love.</h2>
 
     <p id="surpriseText">
@@ -1105,6 +1105,18 @@ function startLevel() {
   levelComplete = false;
   gameOver = false;
 
+  const pairCount = document.getElementById("pairCount");
+const totalPairs = document.getElementById("totalPairs");
+
+const pairsPerLevel = {
+  1: 4,
+  2: 6,
+  3: 8
+};
+
+pairCount.textContent = "0";
+totalPairs.textContent = pairsPerLevel[currentLevel];
+
   const deck = shuffle(
     cardFaces.slice(0, config.pairs).flatMap((face, index) => [
       { face: face, pairId: index },
@@ -1121,7 +1133,7 @@ function startLevel() {
 
     button.type = "button";
     button.className = "memory-card";
-    button.textContent = "✧";
+    button.textContent = "♡";
     button.dataset.pairId = String(card.pairId);
     button.dataset.face = card.face;
     button.setAttribute(
@@ -1160,7 +1172,7 @@ function startLevel() {
       lockBoard = true;
       flippedCards.forEach(card => {
   card.classList.remove("flipped");
-  card.textContent = "✧";
+  card.textContent = "♡";
 });
 
 flippedCards = [];
@@ -1240,8 +1252,8 @@ function flipCard(card) {
       first.classList.remove("flipped");
       second.classList.remove("flipped");
 
-      first.textContent = "✧";
-      second.textContent = "✧";
+      first.textContent = "♡";
+      second.textContent = "♡";
 
       first.setAttribute("aria-label", "Hidden heart card");
       second.setAttribute("aria-label", "Hidden heart card");
@@ -1392,12 +1404,12 @@ function openSurprise() {
     });
 
   } else {
-    lock.textContent = "✧";
+    lock.textContent = "♡";
     button.textContent = "Unseal the Last Gift.";
 
     if (opened.every(Boolean)) {
       surpriseText.textContent =
-        "You have opened every keepsake. One last letter is waiting for you.";
+        "You have opened every keepsake. One last gift is waiting for you.";
     } else {
       surpriseText.textContent =
         "Not a promise that everything will be easy. Just a heart with something important left to say.";
