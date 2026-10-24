@@ -879,7 +879,7 @@ function startLoveMusic() {
   const music = document.getElementById("bgMusic");
   if (!music) return;
 
-  music.volume = 0.40;
+  music.volume = 0.90;
 
   music.play().catch(() => {
     // Musik bisa dicoba lagi setelah interaksi pengguna.
@@ -924,8 +924,8 @@ const levels = [
 ];
 
 const cardFaces = [
-  "♥", "♡", "❣", "ღ",
-  "❤", "❦", "💗", "💌"
+  "❤️", "💛", "💚", "💙",
+  "💜", "🤎", "🖤", "🤍"
 ];
 
 let currentLevel = 0;
@@ -1252,7 +1252,7 @@ function openSurprise() {
     playLoveSound("letterSound");
 
     lock.textContent = "♥";
-    button.textContent = "Fold the Letter ↺";
+    button.textContent = "Fold the Letter.";
 
     surpriseText.textContent =
       "Take your time. These are the words I wanted you to have.";
