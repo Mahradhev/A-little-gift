@@ -1105,17 +1105,11 @@ function startLevel() {
   levelComplete = false;
   gameOver = false;
 
-  const pairCount = document.getElementById("pairCount");
+const pairCount = document.getElementById("pairCount");
 const totalPairs = document.getElementById("totalPairs");
 
-const pairsPerLevel = {
-  1: 4,
-  2: 6,
-  3: 8
-};
-
 pairCount.textContent = "0";
-totalPairs.textContent = pairsPerLevel[currentLevel];
+totalPairs.textContent = String(config.pairs);
 
   const deck = shuffle(
     cardFaces.slice(0, config.pairs).flatMap((face, index) => [
