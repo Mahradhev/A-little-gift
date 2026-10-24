@@ -516,6 +516,24 @@ h1 em { color: #d99ba7; }
 
 <body>
 
+  <!-- LOVE LETTER SOUND EFFECTS -->
+<audio id="clickSound" preload="auto">
+  <source src="sounds/click.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="matchSound" preload="auto">
+  <source src="sounds/match.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="letterSound" preload="auto">
+  <source src="sounds/letter.mp3" type="audio/mpeg">
+</audio>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="sounds/romantic-music.mp3" type="audio/mpeg">
+</audio>
+
 <!-- PEMBUKA: MINI GAME -->
 <section class="game-screen" id="heartGame" aria-labelledby="gameTitle">
   <div class="game-kicker">A little game before the gift</div>
@@ -587,12 +605,12 @@ h1 em { color: #d99ba7; }
   <section class="paper">
     <div class="letter-head">
       <span>PRIVATE CORRESPONDENCE</span>
-      <span>26 / X</span>
+      <span>26 / 26</span>
     </div>
 
     <div class="seal">M</div>
 
-    <h2>Dear Grossvenor,</h2>
+    <h2>Dear My Grossvenor,</h2>
     <p class="paper-intro">
       There is something I've been carrying in my heart,
       something I wish I had known how to say differently.
@@ -663,7 +681,7 @@ h1 em { color: #d99ba7; }
           <p>
             I've been trying to find the right words, but every
             sentence feels too small for the weight of what I feel.
-            With our fourth mensiversary coming on the 26th, I
+            With our fourth mensiversary on the 26th, I
             thought I would be writing you something full of
             happiness, little memories, and all the reasons I am
             grateful to have you. Instead, I find myself writing
@@ -713,7 +731,7 @@ h1 em { color: #d99ba7; }
           <p>
             I know we are having our alone time right now,
             and I wanna respect that. I don't want this
-            girt to become another way of pressuring you
+            gift to become another way of pressuring you
             into answering me before you are ready. I don't 
             know whether we're still holding on to this
             relationship or whether we have reached a place
@@ -766,7 +784,7 @@ h1 em { color: #d99ba7; }
             If there is one thing I hope you carry from
             this letter, it is that you were never
             insignificant to me. You were never just
-            another passing chapter. You are someone I
+            another passing chapter. You're someone I
             chose with love, someone I am thankful to
             have met, and someone I wish I had treated
             more gently when it mattered most.
@@ -837,13 +855,36 @@ h1 em { color: #d99ba7; }
       No answer is owed. Every feeling is real.
     </span>
     <p style="font-size:12px; margin-top:20px">
-      I love you, Grossvenor
+      I love you, Grossvenor.
     </p>
   </footer>
 
 </main>
 
 <script>
+  
+  // LOVE LETTER AUDIO CONTROLS
+function playLoveSound(id) {
+  const audio = document.getElementById(id);
+  if (!audio) return;
+
+  audio.currentTime = 0;
+
+  audio.play().catch(() => {
+    // Browser mungkin belum mengizinkan pemutaran audio.
+  });
+}
+
+function startLoveMusic() {
+  const music = document.getElementById("bgMusic");
+  if (!music) return;
+
+  music.volume = 0.40;
+
+  music.play().catch(() => {
+    // Musik bisa dicoba lagi setelah interaksi pengguna.
+  });
+}
 /* ==========================================
    MINI GAME: MATCH MY HEART
    Three levels with increasing difficulty
@@ -999,6 +1040,12 @@ function startLevel() {
       stopGameClock();
       gameOver = true;
       lockBoard = true;
+      flippedCards.forEach(card => {
+  card.classList.remove("flipped");
+  card.textContent = "✧";
+});
+
+flippedCards = [];
 
       memoryGrid.querySelectorAll("button").forEach(card => {
         card.disabled = true;
@@ -1040,6 +1087,8 @@ function flipCard(card) {
   const [first, second] = flippedCards;
 
   if (first.dataset.pairId === second.dataset.pairId) {
+    playLoveSound("matchSound");
+    
     first.classList.remove("flipped");
     second.classList.remove("flipped");
 
@@ -1123,6 +1172,8 @@ nextLevelButton.addEventListener("click", () => {
 enterLetterButton.addEventListener("click", () => {
   gamePanel.hidden = true;
   experience.hidden = false;
+  
+  startLoveMusic();
 
   window.scrollTo({
     top: 0,
@@ -1166,11 +1217,21 @@ function reveal(index, button) {
     box.classList.remove("show");
   }
 
-  if (opened.every(Boolean)) {
-    document.getElementById("surpriseText").textContent =
+  const surpriseText = document.getElementById("surpriseText");
+  const letter = document.getElementById("letter");
+
+  if (letter.classList.contains("show")) {
+    surpriseText.textContent =
+      "Take your time. These are the words I wanted you to have.";
+  } else if (opened.every(Boolean)) {
+    surpriseText.textContent =
       "You have opened every keepsake. One last letter is waiting for you.";
+  } else {
+    surpriseText.textContent =
+      "Not a promise that everything will be easy. Just a heart with something important left to say.";
   }
 }
+
 
 /* ==========================================
    SURPRISE: OPEN OR FOLD THE LAST LETTER
@@ -1180,14 +1241,17 @@ function openSurprise() {
   const letter = document.getElementById("letter");
   const button = document.getElementById("surpriseButton");
   const lock = document.getElementById("lock");
+  const surpriseText = document.getElementById("surpriseText");
 
   const isOpen = letter.classList.toggle("show");
 
   if (isOpen) {
+    playLoveSound("letterSound");
+
     lock.textContent = "♥";
     button.textContent = "Fold the Letter ↺";
 
-    document.getElementById("surpriseText").textContent =
+    surpriseText.textContent =
       "Take your time. These are the words I wanted you to have.";
 
     letter.scrollIntoView({
@@ -1197,9 +1261,34 @@ function openSurprise() {
 
   } else {
     lock.textContent = "✧";
-    button.textContent = "Unseal the Last Letter ♡";
+    button.textContent = "Unseal the Last Gift.";
+
+    if (opened.every(Boolean)) {
+      surpriseText.textContent =
+        "You have opened every keepsake. One last letter is waiting for you.";
+    } else {
+      surpriseText.textContent =
+        "Not a promise that everything will be easy. Just a heart with something important left to say.";
+    }
   }
 }
+
+/* ==========================================
+   SOUND EFFECT FOR BUTTON CLICKS
+========================================== */
+
+document.addEventListener("click", function(event) {
+  const button = event.target.closest("button");
+
+  if (
+    button &&
+    !button.classList.contains("memory-card") &&
+    button.id !== "surpriseButton"
+  ) {
+    playLoveSound("clickSound");
+  }
+});
+  
 </script>
 
 </body>
