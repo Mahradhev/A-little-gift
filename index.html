@@ -985,6 +985,7 @@ function playLoveSound(id) {
   const audio = document.getElementById(id);
   if (!audio) return;
 
+  audio.volume = 0.25;
   audio.currentTime = 0;
 
   audio.play().catch(() => {
@@ -996,7 +997,7 @@ function startLoveMusic() {
   const music = document.getElementById("bgMusic");
   if (!music) return;
 
-  music.volume = 50;
+  music.volume = 1.0;
 
   music.play().catch(() => {
     // Musik bisa dicoba lagi setelah interaksi pengguna.
