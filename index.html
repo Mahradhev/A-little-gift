@@ -1169,11 +1169,14 @@ nextLevelButton.addEventListener("click", () => {
   }
 });
 
+
 enterLetterButton.addEventListener("click", () => {
+  // Putar romantic music setelah mini game selesai
+  startLoveMusic();
+
+  // Sembunyikan mini game dan tampilkan love letter
   gamePanel.hidden = true;
   experience.hidden = false;
-  
-  startLoveMusic();
 
   window.scrollTo({
     top: 0,
